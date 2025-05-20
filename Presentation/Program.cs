@@ -3,6 +3,8 @@ using Data.Contexts;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+//Added Git comment
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
