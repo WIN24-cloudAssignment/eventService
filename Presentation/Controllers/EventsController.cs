@@ -13,7 +13,6 @@ namespace Presentation.Controllers
         private readonly IEventService _eventService = eventService;
 
         [HttpPost]
-
         public async Task<IActionResult> Create(CreateEventRequest request)
         {
             if (!ModelState.IsValid) 
@@ -36,6 +35,18 @@ namespace Presentation.Controllers
            var currentEvent = await _eventService.GetEventAsync(id);
             return currentEvent != null ? Ok(currentEvent) : NotFound();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var result = await _eventService.DeleteEventAsync(id);
+
+            if (!result.Success)
+                return NotFound(new { message = result.Error ?? "Event not found" });
+
+            return Ok(new { message = "Event successfully deleted" });
+        }
+
 
     }
 }

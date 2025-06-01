@@ -75,5 +75,24 @@ public class EventService(IEventRepository eventRepository) : IEventService
 
         return new EventResult<Event?> { Success = false, Error = "Event not found" };
     }
+
+    public async Task<EventResult> DeleteEventAsync(string id)
+    {
+        var existingEntity = await _eventRepository.GetAsync(e => e.Id == id);
+
+        if (!existingEntity.Succeeded || existingEntity.Result == null)
+            return new EventResult
+            {
+                Success = false,
+                Error = "Event not found."
+            };
+
+        var result = await _eventRepository.DeleteAsync(existingEntity.Result);
+
+        return result.Succeeded
+            ? new EventResult { Success = true }
+            : new EventResult { Success = false, Error = result.Error };
+    }
+
 }
 
